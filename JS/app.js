@@ -7,7 +7,6 @@ class Note {
         this.id = id
     }
     generateNewNote() {
-
         const form = document.querySelector("#newNoteCreator");
         let input = document.createElement("input");
         input.setAttribute("type", "text");
@@ -25,10 +24,7 @@ class Note {
         document.querySelector("#newButton").remove()
         document.querySelector("#noteMessage").remove()
         isNoteBeingCreated = false
-        console.log(isNoteBeingCreated)
-        return isNoteBeingCreated
-
-
+        notesList[notesList.length - 1].id = notesList.length
     }
     setDateAndTime() { //generates time and date
         let today = new Date()
@@ -53,7 +49,6 @@ let findNewNote = document.addEventListener('click', function (e) { //get the da
         console.log(e.target.id)
         notesList[notesList.length - 1].message = document.querySelector("#noteMessage").value
         document.querySelector("#noteMessage").value = ""
-        document
         notesList[notesList.length - 1].submittedNote()
     }
 });
