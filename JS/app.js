@@ -1,8 +1,8 @@
 let isNoteBeingCreated = false
 let notesList = []
 let section = document.querySelector("#newNoteScreen")
+let generalID = 0 //generalID count
 class Note {
-
     constructor(message, id) {
         this.message = message
         this.date = this.setDateAndTime()
@@ -10,14 +10,48 @@ class Note {
     }
     generateNewNote() {
         section.classList.replace("hideSection", "showSection")
-        // section.classList.add("showSection")
         return isNoteBeingCreated = true
     }
-    submittedNote() {
+
+    submittedNote(noteID) {
         isNoteBeingCreated = false
         section.classList.replace("showSection", "hideSection")
-        notesList[notesList.length - 1].id = notesList.length
+        this.id = noteID //set the object ID similer to recieved one
+        generalID++ //INCREMENT general ID counter
+        notesList[this.id].generateExistingFormsList(this.id) //call GEFL in order to generate a new
+        //visual note
     }
+
+    generateExistingFormsList(noteID) {
+        let onDocumentNoteList = document.querySelector("#notesList")
+        let span = document.createElement("span")
+        span.setAttribute("id", noteID)
+        let paragraph = document.createElement("p").innerText = notesList[noteID].message
+        let date = document.createElement("p").innerText = notesList[noteID].date
+        let edit = document.createElement("button")
+        edit.setAttribute("data-id", noteID)
+        edit.setAttribute("data-action", "edit")
+        edit.innerText = "edit"
+        let remove = document.createElement("button")
+        remove.setAttribute("data-id", noteID)
+        remove.setAttribute("data-action", "remove")
+        remove.innerText = "remove"
+        onDocumentNoteList.append(span)
+        span.append(paragraph, date, edit, remove)
+    }
+    editNote() {
+        console.log(`i'm in!!editttttttt!, ID IS: ${this.id}`)
+        let input = document.querySelector("#noteData")
+        input.value = this.message
+        section.classList.replace("hideSection", "showSection")
+
+
+
+    }
+    removeNote() {
+        console.log(`i'm in!!removeeeeeee!!!!! , ID IS: ${this.id}`)
+    }
+
     setDateAndTime() { //generates time and date
         let today = new Date()
         const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
@@ -32,19 +66,35 @@ let addNote = document.querySelector("#addNew").addEventListener("click", functi
         const note = new Note() //creates a new Note element
         isNoteBeingCreated = note.generateNewNote()
         notesList.push(note)
+        console.log(isNoteBeingCreated)
+        console.log(notesList)
     }
 })
 
-let createNewNote = document.querySelector("#addNote").addEventListener('click', function (e) { //get the data of the new note
-    console.log(`i've clicked the submit button, message is: ${document.querySelector("#noteData").value}`)
-    if (e.target && e.target.id == 'addNote') { //searchs for the newButton id
-        notesList[notesList.length - 1].message = document.querySelector("#noteData").value
+let createNewNote = document.querySelector("#newNoteCreator").addEventListener('click', function (e) { //get the data of the new note
+    if (e.target && e.target.id === 'addNote') { //searchs for the newButton id
+        notesList[generalID].message = document.querySelector("#noteData").value
         document.querySelector("#noteData").value = ""
-        notesList[notesList.length - 1].submittedNote()
-        console.log(`is being created status is: ${isNoteBeingCreated}`)
-        console.log(`current notes are: ${notesList}`)
+        notesList[generalID].submittedNote(generalID)
     }
-});
+})
+
+let findNote = document.querySelector("#notesList").addEventListener('click', function (e) {
+    if (e.target.dataset.id != undefined) {
+        if (e.target.dataset.action === "remove") {
+            console.log("remove!")
+            let findNoteInArray = notesList.find(x => x.id == (e.target.dataset.id).toString())
+            findNoteInArray.removeNote()
+        }
+        if (e.target.dataset.action === "edit") {
+            console.log("edit!")
+            let findNoteInArray = notesList.find(x => x.id == (e.target.dataset.id).toString())
+            findNoteInArray.editNote()
+        }
+
+    }
+
+})
 
 
 
