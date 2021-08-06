@@ -1,6 +1,7 @@
 let isNoteBeingCreated = false
 let notesList = []
-let section = document.querySelector("#newNoteScreen")
+let addNewSection = document.querySelector("#newNoteScreen")
+let editNewSection = document.querySelector("#editNoteScreen")
 let generalID = 0 //generalID count
 class Note {
     constructor(message, id) {
@@ -9,13 +10,13 @@ class Note {
         this.id = id
     }
     generateNewNote() {
-        section.classList.replace("hideSection", "showSection")
+        addNewSection.classList.replace("hideSection", "showSection")
         return isNoteBeingCreated = true
     }
 
     submittedNote(noteID) {
         isNoteBeingCreated = false
-        section.classList.replace("showSection", "hideSection")
+        addNewSection.classList.replace("showSection", "hideSection")
         this.id = noteID //set the object ID similer to recieved one
         generalID++ //INCREMENT general ID counter
         notesList[this.id].generateExistingFormsList(this.id) //call GEFL in order to generate a new
@@ -25,9 +26,11 @@ class Note {
     generateExistingFormsList(noteID) {
         let onDocumentNoteList = document.querySelector("#notesList")
         let span = document.createElement("span")
-        span.setAttribute("id", noteID)
-        let paragraph = document.createElement("p").innerText = notesList[noteID].message
-        let date = document.createElement("p").innerText = notesList[noteID].date
+        span.setAttribute("data-id", noteID)
+        let paragraph = document.createElement("p")
+        paragraph.innerText = notesList[noteID].message
+        let date = document.createElement("p")
+        date.innerText = notesList[noteID].date
         let edit = document.createElement("button")
         edit.setAttribute("data-id", noteID)
         edit.setAttribute("data-action", "edit")
@@ -39,15 +42,26 @@ class Note {
         onDocumentNoteList.append(span)
         span.append(paragraph, date, edit, remove)
     }
-    editNote() {
+
+    editNote(note) {
         console.log(`i'm in!!editttttttt!, ID IS: ${this.id}`)
-        let input = document.querySelector("#noteData")
+        let input = document.querySelector("#editedNoteData")
         input.value = this.message
-        section.classList.replace("hideSection", "showSection")
-
-
+        popUpScreen()
+        function popUpScreen() {
+            let changeNote = document.querySelector("#editNoteButton")
+            console.log(changeNote)
+            editNewSection.classList.replace("hideSection", "showSection")
+            changeNote.addEventListener('click', function (e) {
+                note.message = document.querySelector("#editedNoteData").value
+                let p = document.querySelector(`[data-id ="${note.id}"]`).querySelector("p")
+                p.innerText = note.message
+                editNewSection.classList.replace("showSection", "hideSection")
+            })
+        }
 
     }
+
     removeNote() {
         console.log(`i'm in!!removeeeeeee!!!!! , ID IS: ${this.id}`)
     }
@@ -79,17 +93,20 @@ let createNewNote = document.querySelector("#newNoteCreator").addEventListener('
     }
 })
 
-let findNote = document.querySelector("#notesList").addEventListener('click', function (e) {
+let findNote = document.querySelector("#notesList")
+findNote.addEventListener('click', function (e) { //allows editing and removing of a note
     if (e.target.dataset.id != undefined) {
         if (e.target.dataset.action === "remove") {
             console.log("remove!")
-            let findNoteInArray = notesList.find(x => x.id == (e.target.dataset.id).toString())
-            findNoteInArray.removeNote()
+            let findNoteInArray = notesList.find(x => x.id === (e.target.dataset.id))
+            findNoteInArray.removeNote(findNoteInArray)
         }
         if (e.target.dataset.action === "edit") {
             console.log("edit!")
+            console.log(e.target.dataset.id)
+            console.log(notesList)
             let findNoteInArray = notesList.find(x => x.id == (e.target.dataset.id).toString())
-            findNoteInArray.editNote()
+            findNoteInArray.editNote(findNoteInArray)
         }
 
     }
