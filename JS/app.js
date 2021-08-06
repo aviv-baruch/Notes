@@ -1,29 +1,21 @@
 let isNoteBeingCreated = false
 let notesList = []
+let section = document.querySelector("#newNoteScreen")
 class Note {
+
     constructor(message, id) {
         this.message = message
         this.date = this.setDateAndTime()
         this.id = id
     }
     generateNewNote() {
-        const form = document.querySelector("#newNoteCreator");
-        let input = document.createElement("input");
-        input.setAttribute("type", "text");
-        input.setAttribute("id", "noteMessage");
-        const submit = document.createElement("button")
-        submit.setAttribute("type", "button");
-        submit.setAttribute("id", "newButton")
-        submit.innerHTML = "Submit"
-        form.append(input)
-        submit.classList.add("button")
-        form.append(submit)
+        section.classList.replace("hideSection", "showSection")
+        // section.classList.add("showSection")
         return isNoteBeingCreated = true
     }
     submittedNote() {
-        document.querySelector("#newButton").remove()
-        document.querySelector("#noteMessage").remove()
         isNoteBeingCreated = false
+        section.classList.replace("showSection", "hideSection")
         notesList[notesList.length - 1].id = notesList.length
     }
     setDateAndTime() { //generates time and date
@@ -43,13 +35,14 @@ let addNote = document.querySelector("#addNew").addEventListener("click", functi
     }
 })
 
-let findNewNote = document.addEventListener('click', function (e) { //get the data of the new note
-    if (e.target && e.target.id == 'newButton') { //searchs for the newButton id
-        console.log(e.target)
-        console.log(e.target.id)
-        notesList[notesList.length - 1].message = document.querySelector("#noteMessage").value
-        document.querySelector("#noteMessage").value = ""
+let createNewNote = document.querySelector("#addNote").addEventListener('click', function (e) { //get the data of the new note
+    console.log(`i've clicked the submit button, message is: ${document.querySelector("#noteData").value}`)
+    if (e.target && e.target.id == 'addNote') { //searchs for the newButton id
+        notesList[notesList.length - 1].message = document.querySelector("#noteData").value
+        document.querySelector("#noteData").value = ""
         notesList[notesList.length - 1].submittedNote()
+        console.log(`is being created status is: ${isNoteBeingCreated}`)
+        console.log(`current notes are: ${notesList}`)
     }
 });
 
