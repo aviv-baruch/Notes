@@ -14,3 +14,8 @@
     height: 100%;
     background-color: black;
 }
+
+div{
+    border: 1px solid black;
+    display: inline-block;
+}
