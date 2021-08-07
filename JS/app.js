@@ -2,6 +2,8 @@ let isNoteBeingCreated = false
 let notesList = []
 let addNewSection = document.querySelector("#newNoteScreen")
 let editNewSection = document.querySelector("#editNoteScreen")
+
+let cancelState = "add"
 let generalID = 0 //generalID count
 class Note {
     constructor(message, id) {
@@ -12,10 +14,9 @@ class Note {
     generateNewNote() {
         this.id = generalID
         hideAllNotes()
+        cancelState = "add"
         addNewSection.classList.replace("hideSection", "showSection")
         isNoteBeingCreated = true
-        console.log(`this is the set ID ${this.id}`)
-        console.log(`this is the generalID Counter ${generalID}`)
         return this.id
     }
 
@@ -30,7 +31,6 @@ class Note {
 
     generateExistingFormsList(noteID) {
         let onDocumentNoteList = document.querySelector("#notesList") //select container
-
         let div = document.createElement("div") //generate main card div
         div.setAttribute("data-id", noteID)
         div.setAttribute("style", "width: 18rem;")
@@ -71,6 +71,7 @@ class Note {
     }
 
     editNote(note) {
+        cancelState = "edit"
         hideAllNotes()
         let input = document.querySelector("#editedNoteData")
         input.value = this.message
@@ -103,14 +104,6 @@ class Note {
         const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
         const dateTime = date + ' ' + time
         return dateTime
-    }
-    cancel(type) {
-        if (type == "add") {
-
-        }
-        if (type == "remove") {
-
-        }
     }
 }
 
@@ -148,6 +141,30 @@ findNote.addEventListener('click', function (e) { //allows editing and removing 
         }
     }
 })
+
+let cancel = document.querySelectorAll(".cancel")
+cancel[0].addEventListener('click', function (e) {
+    cancelWindow(cancelState)
+})
+
+cancel[1].addEventListener('click', function (e) {
+    cancelWindow(cancelState)
+})
+
+let cancelWindow = (type) => {
+    if (type == "add") {
+        isNoteBeingCreated = false
+        addNewSection.classList.replace("showSection", "hideSection")
+        addNote.classList.remove("disabled")
+        showAllNotes()
+        console.log(notesList.pop())
+    }
+    if (type == "edit") {
+        editNewSection.classList.replace("showSection", "hideSection")
+        addNote.classList.remove("disabled")
+        showAllNotes()
+    }
+}
 
 let hideAllNotes = () => {
     let findAll = document.querySelectorAll(".card")

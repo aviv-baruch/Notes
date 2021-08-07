@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container-fluid">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal"
                 viewBox="0 0 16 16">
@@ -35,10 +35,6 @@
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true" disabled></a>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </nav>
@@ -51,15 +47,16 @@
                     d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z" />
             </svg>
         </div>
-        <div class="center">
+        <div class="center form-floating">
             <form id="newNoteCreator">
-                <input type="text" id="noteData" placeholder="Fill your note here!" required>
-                <button type="button" id="addNote">Submit!</button>
+                <textarea class="form-control" id="noteData" placeholder="Fill your note here!"
+                    style="height: 10em; width: 20em"></textarea>
+                <button type="button" id="addNote" class="btn btn-success">Submit!</button>
             </form>
         </div>
     </section>
 
-    <section id="editNoteScreen" class="hideSection">
+    <section id="editNoteScreen" class="hideSection blur">
         <div class="cancel">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
                 viewBox="0 0 16 16">
@@ -67,10 +64,10 @@
                     d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z" />
             </svg>
         </div>
-        <div class="center">
+        <div class="center form-floating">
             <form id="editNoteCreator">
-                <input type="text" id="editedNoteData" required>
-                <button type="button" id="editNoteButton">Edit!</button>
+                <textarea class="form-control" id="editedNoteData" style="height: 10em; width: 20em"></textarea>
+                <button type="button" id="editNoteButton" class="btn btn-success">Edit!</button>
             </form>
         </div>
     </section>

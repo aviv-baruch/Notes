@@ -50,7 +50,8 @@ p .card-text{
     border-radius: 50%;
 }
 #addNew{
-    position: absolute;
+    z-index:99999;
+    position: fixed;
     bottom:1em;
     right:1em;
 }
@@ -66,5 +67,20 @@ p .card-text{
 
 .blur {
     background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(3px); 
+    backdrop-filter: blur(0.1em); 
   }
+
+#newNoteCreator{
+    display: flex;
+    flex-direction: column;
+}
+
+#editNoteCreator{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.form-control {
+    margin-bottom: 1em;
+}
