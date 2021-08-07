@@ -2,6 +2,7 @@ let isNoteBeingCreated = false
 let notesList = []
 let addNewSection = document.querySelector("#newNoteScreen")
 let editNewSection = document.querySelector("#editNoteScreen")
+let refreshed = true
 
 let cancelState = "add"
 let generalID = 0 //generalID count
@@ -12,6 +13,7 @@ class Note {
         this.id = id
     }
     generateNewNote() {
+        refreshed = true
         this.id = generalID
         hideAllNotes()
         cancelState = "add"
@@ -26,6 +28,8 @@ class Note {
         generalID++ //INCREMENT general ID counter
         notesList[notesList.length - 1].generateExistingFormsList(this.id) //call GEFL in order to generate a new
         //visual note
+        window.localStorage.setItem(this.id, JSON.stringify(this));
+        Object.entries(localStorage)
         showAllNotes()
     }
 
@@ -67,7 +71,7 @@ class Note {
         onDocumentNoteList.append(div)
         div.append(innerDiv)
         innerDiv.append(date, paragraph, edit, remove)
-        console.log(this)
+        // console.log(this)
     }
 
     editNote(note) {
@@ -85,6 +89,7 @@ class Note {
                 p.innerText = note.message
                 editNewSection.classList.replace("showSection", "hideSection")
                 addNote.classList.remove("disabled")
+                window.localStorage.setItem(note.id, JSON.stringify(note));
                 showAllNotes()
             })
         }
@@ -95,7 +100,9 @@ class Note {
         let p = document.querySelector(`[data-id ="${note.id}"]`)
         p.remove()
         let findNoteLocation = notesList.indexOf(note)
+        window.localStorage.removeItem(note.id);
         notesList.splice(findNoteLocation, 1)
+        console.log(Object.entries(localStorage))
     }
 
     setDateAndTime() { //generates time and date
@@ -157,7 +164,7 @@ let cancelWindow = (type) => {
         addNewSection.classList.replace("showSection", "hideSection")
         addNote.classList.remove("disabled")
         showAllNotes()
-        console.log(notesList.pop())
+        notesList.pop()
     }
     if (type == "edit") {
         editNewSection.classList.replace("showSection", "hideSection")
