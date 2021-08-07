@@ -104,6 +104,14 @@ class Note {
         const dateTime = date + ' ' + time
         return dateTime
     }
+    cancel(type) {
+        if (type == "add") {
+
+        }
+        if (type == "remove") {
+
+        }
+    }
 }
 
 let addNote = document.querySelector("#addNew")
