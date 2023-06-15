@@ -2,15 +2,6 @@
 
 This is a vanilla JS project that allows you to create and manage personal "post-it" style notes. The data is saved locally using the browser's local storage.
 
-## Table of Contents
-
-- [Description](#description)
-- [Adding a Note](#Adding a Note)
-- [Editing a Note](#Editing a Note)
-- [Removing a Note](#Removing a Note)
-- [Files](#Files)
-- [Styling](#Styling)
-- 
 ## Usage
 
 To use the app, simply open the `index.html` file in a web browser.
